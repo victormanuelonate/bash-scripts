@@ -1,6 +1,6 @@
 #! /bin/bash
 ##########################################################
-#Realizado por Victor Manuel. Mayo 2018 #
+#Realizado por Victor Manuel. Mayo 2018 ##
 ########################Variables#########################
 DATE=`date '+%Y-%m-%d %H:%M:%S'`
 ####################Estado del Server BPM#################
