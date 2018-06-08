@@ -1,2 +1,2 @@
 # bash-scripts
-Scripts de Admiistracion general Linux
+Scripts de Admiistracion General Linux
