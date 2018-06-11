@@ -4,7 +4,7 @@ connect( 'usuario', 'password', 't3://localhost:7001', adminServerName='AdminSer
 
 print 'deploying....'
 
-deploy('nombre-app', '/home/oracle/wls_domain/servers/AdminServer/upload/app.war', targets='wls_server1')
+deploy('nombre-app', '/home/oracle/wls_domain/servers/AdminServer/upload/app.war', targets='nombre-server-weblogic')
 
 print 'subiendo ...'
 
