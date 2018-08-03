@@ -1,0 +1,13 @@
+sudo mkdir -p /u02/app/obi122dev/domains/OBIPPDEV
+sudo mkdir -p /u02/app/obi122dev/nodemanager
+sudo mkdir -p /u02/app/obi122dev/logs
+sudo chown -R wlp122dev:oinstall 'Nodo Admin'.
+Domain USER
+echo '#!/bin/sh' >> /u02/app/obi122dev/domains/OBIPPDEV/subeWeblogic.sh
+echo 'nohup ./startweblogic.sh > /u02/app/obi122dev/logs/AdminPPOBIDEV/AdminPPOBIDEV.out 2>&1&' >> /u02/app/obi122dev/domains/OBIPPDEV/subeWeblogic.sh
+echo 'sleep 2' >> /u02/app/obi122dev/domains/OBIPPDEV/subeWeblogic.sh
+echo 'tail -f  /u02/app/obi122dev/logs/AdminPPOBIDEV/AdminPPOBIDEV.out' >> /u02/app/obi122dev/domains/OBIPPDEV/subeWeblogic.sh
+chmod u+x /u02/app/wlp122dev/domains/WLPPPDEV/subeWeblogic.sh
+mkdir -p /u02/app/wlp122dev/domains/WLPPPDEV/servers/AdminPPWLPDEV/security
+echo 'username=weblogic' >> /u02/app/obi122dev/domains/OBIPPDEV/servers/AdminPPOBIDEV/security/boot.properties
+echo 'password=obidev2017' >>  /u02/app/obi122dev/domains/OBIPPDEV/servers/AdminPPOBIDEV/security/boot.properties
