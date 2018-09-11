@@ -1,2 +1,2 @@
 # Bash Scripts
-Scripts de Admiistracion General Linux, Cloud AWS y MidellWare
+Scripts de Admiistracion General Linux, Cloud AWS and MidellWare
