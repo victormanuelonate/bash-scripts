@@ -1,6 +1,6 @@
 print 'connecting to admin server....'
 
-connect( 'weblogic', 'IPSpro543#', 't3://localhost:7001', adminServerName='AdminServer' )
+connect( 'weblogic', 'Password', 't3://localhost:7001', adminServerName='AdminServer' )
 
 f = open ('/tmp/asimupersona.txt','w')
 f.write('OK')
