@@ -1,4 +1,5 @@
- git config --global --edit
+#Comados Basicos
+git config --global --edit
 # This is Git's per-user configuration file.
 #[user]
 # Please adapt and uncomment the following lines:
