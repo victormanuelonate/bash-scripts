@@ -1,0 +1,56 @@
+import boto3
+import sys
+
+try:
+    ec2 = boto3.resource('ec2')
+   
+except Exception, e1:
+    error1 = "Muy mallll"
+    print(error1)
+    sys.exit(0)
+
+def lambda_handler(event, context):
+    filters=[
+        {
+            'Name': 'instance-state-name',
+            'Values': ['stopped']
+            
+        }
+    ]
+#    instances = ec2.instances.filter()
+    instances = ec2.instances.filter(Filters=filters)
+    
+  # instances = ec2.instances
+    
+    for instance in instances:
+ #       Listar(instance.id)
+        SO="Windows"
+        Nombre="Vacio"
+        if instance.platform == None:
+            SO="Linux" 
+        else: 
+            SO="Windows"
+        for tag in instance.tags:
+            if tag['Key'] == 'Name':
+                Nombre=tag['Value']
+         
+        #print instance.tags      
+        print Nombre + "#" + SO + "#" + "Ambiente" + "#" + instance.private_ip_address + "#" + instance.instance_type +  "#" + instance.vpc_id + "#" + "Stopped "        
+        #print   Nombre + "#" + SO + "#" + "Ambiente" + "#" + instance.private_ip_address + "#" + instance.instance_type +  "#" + instance.vpc_id 
+        #if instance.tags['Name'] == None:
+        #    Nombre="Vacio"
+        #else:
+        #print  get_instance_name(instance.id)
+        #+ "#" +  instance.instance_type + "#"   
+        #+ "Ambiente" + "#" + instance.private_ip_address + "#" + instance.instance_type + "#" + instance.vpc_id +  "#" + "running "
+        # print  instance.platform
+         #+  instance.private_ip_address
+      
+         
+
+#def Listar(id):
+#    print "+++++++++++++++++++++++++++++++"
+#    print "ID de la instance "+ id. 
+#    print "+++++++++++++++++++++++++++++++"
+        
+        
