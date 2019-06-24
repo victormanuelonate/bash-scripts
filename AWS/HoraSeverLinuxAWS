@@ -1,0 +1,12 @@
+$ sudo yum erase 'ntp*'
+$ sudo yum install chrony
+#Editar  /etc/chrony.conf
+server 169.254.169.123 prefer iburst minpoll 4 maxpoll 4
+$ systemctl enable chronyd
+$ systemctl start chronyd
+$ chronyc sources -v
+$ chronyc tracking
+#######################
+$ timedatectl
+$ timedatectl list-timezones
+$ timedatectl set-timezone Europe/Madrid
