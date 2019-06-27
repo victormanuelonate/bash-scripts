@@ -1,0 +1,62 @@
+import boto3
+import sys
+
+try:
+    ec2 = boto3.client('ec2')
+except Exception, e1:
+    error1 = "Error1: %s" % str(e1)
+    print(error1)
+    sys.exit(0)
+
+try:
+    ec3 = boto3.resource('ec2')
+except Exception, e1:
+    error1 = "Error1: %s" % str(e1)
+    print(error1)
+    sys.exit(0)
+
+def check_instance_status(id):
+    try:
+        return ec2.describe_instance_status(
+            InstanceIds = [id]
+         )
+    except Exception, e2:
+        error2 = "Error2: %s" % str(e2)
+        print(error2)
+        sys.exit(0)
+
+def startInstance(id):
+    print "+++++++++++++++++++++++++++++++"
+    print "Starting instance "+ id
+    print "+++++++++++++++++++++++++++++++"
+    try:
+         ec2.start_instances(
+            InstanceIds = [id]
+         )
+    except Exception, e2:
+        error2 = "Error2: %s" % str(e2)
+        print(error2)
+        sys.exit(0)
+
+def lambda_handler(event, context):
+    filters=[
+        {
+            'Name': 'instance-state-name',
+            'Values': ['stopped']
+        },
+        {
+            'Name': 'tag:politica',
+            'Values': ['1']
+        }
+    ]
+    instances = ec3.instances.filter()
+    for instance in instances:
+        status = check_instance_status(instance.instance_id)
+        if not status['InstanceStatuses'] :
+           startInstance(instance.instance_id)
+        else:
+            for stat in status['InstanceStatuses']:
+                if stat['InstanceState']['Name'] != 'running' :
+                    startInstance(instance.instance_id)
+                else:
+                    print 'Instancia con id: ' + instance.instance_id + ' encendida, no es necesario volverla a encender'
