@@ -1,0 +1,15 @@
+import boto3
+import logging
+rds = boto3.client('rds')
+
+def lambda_handler(event, context):
+    instances = rds.describe_db_instances()
+    for instance in instances["DBInstances"]:
+        arn = instance['DBInstanceArn']
+        response = rds.list_tags_for_resource(ResourceName=arn)
+        status = instance["DBInstanceStatus"]
+        if status == "available":
+            for tag in response['TagList']:
+                if tag['Key'] == 'PoliticaStop':
+                    if tag['Value'] == '1':
+                        rds.stop_db_instance( DBInstanceIdentifier=instance["DBInstanceIdentifier"])
