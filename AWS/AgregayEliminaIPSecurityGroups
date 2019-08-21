@@ -1,0 +1,58 @@
+import boto3
+from botocore.exceptions import ClientError
+
+
+ec2 = boto3.client('ec2')
+def lambda_handler(event, context):
+    try:
+        response = ec2.describe_security_groups( 
+           # Filters=[
+            # only concerned with ssh
+            #{
+             #   'Name': 'ip-permission.from-port',
+             #   'Values': [ '2772' ]
+            #}]
+            )
+        current_ip="1.1.1.1/32"
+        new_ip="7.7.7.7/32"
+        for i in response['SecurityGroups']:
+           # print "Security Group Name: "+i['GroupName']
+            for j in i['IpPermissions']:
+                #print "IP Protocol: "+j['IpProtocol']
+                for k in j['IpRanges']:
+                 #   print "IP Ranges: "+k['CidrIp']
+                    if k['CidrIp'] == current_ip:
+                      #  print current_ip
+                      #  print "Security ID: "+i['GroupId']  
+                      #  print "Security Group Name: "+i['GroupName']
+                      #  print "IP Protocol: "+j['IpProtocol']
+                        try:
+                            print "Description: "+k['Description']
+                            VDescription=k['Description']
+                        except KeyError as Error :
+                            VDescription="Sin Description"
+                        #  print  "Description: "+k['Description']
+                        #print  "Description: "+VDescription
+                        if j['IpProtocol'] != '-1':
+                       #     print "From Port: "+str(j['FromPort'])
+                        #    print "To Port: "+str(j['ToPort'])
+                            VToPort   = j['ToPort']
+                            VFromPort = j['FromPort']
+                        else:
+                            #print "From Portttt: "+j['FromPort']
+                            #print "To Portttt: "+j['ToPort']
+                            VFromPort=1
+                            VToPort=1
+                            #print "From Portttt: " VFromPort 
+                            #print "To Portttt: " VToPort
+                                
+                        
+                        #ec2.authorize_security_group_ingress(GroupId=i['GroupId'],IpPermissions=[{ 'IpProtocol': j['IpProtocol'],'IpRanges': [{'CidrIp': '7.7.7.7/32','Description': 'test2'}]}])
+                        # TODO: write code...
+                        #ec2.authorize_security_group_ingress(GroupId=i['GroupId'],'CidrIp': '7.7.7.7/32',, IpProtocol='-1')
+                        #ec2.authorize_security_group_ingress(GroupId=i['GroupId'],IpPermissions=[ {'IpProtocol':j['IpProtocol'],'FromPort': VFromPort,'ToPort': VToPort ,'IpRanges':[{'CidrIp': '7.7.7.7/32', 'Description' :k['Description']}]}])
+                        ec2.authorize_security_group_ingress(GroupId=i['GroupId'],IpPermissions=[ {'IpProtocol':j['IpProtocol'],'FromPort': VFromPort,'ToPort': VToPort ,'IpRanges':[{'CidrIp': new_ip, 'Description' : VDescription }]}])
+                        ec2.revoke_security_group_ingress(GroupId=i['GroupId'],IpProtocol=j['IpProtocol'],FromPort=VFromPort,ToPort=VToPort,CidrIp=current_ip)         
+      #  print(response)
+    except ClientError as e:
+        print(e)
