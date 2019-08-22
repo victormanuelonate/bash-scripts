@@ -1,0 +1,19 @@
+#! /bin/bash
+BEGIN=$(date +%Y%m%d)
+CAMBIO=$(date +%Y%m%d%H%M)
+RESPALDO="respaldo.$BEGIN.tar.gz"
+if [ -f /mnt/Datos2/respaldo/$RESPALDO ]; then
+        echo "Ya esta el respaldo del dia $BEGIN"
+else
+        tar -cvzf /mnt/Datos2/respaldo/$RESPALDO  /mnt/Datos2/www/html/contactoips/contactenos-ips/subidas/
+fi
+if [ $(find /var/www/html/contactoips/contactenos-ips/subidas/  -type f | wc -l) -gt 0  ]; then
+        echo "########## INICIO ###############" >>  /tmp/cambios.txt
+        echo "Estos son los cambios de fecha $CAMBIO " >> /tmp/cambios.txt
+        find /var/www/html/contactoips/contactenos-ips/subidas/  -type f >>  /tmp/cambios.txt
+        echo "########### FIN ##############" >>  /tmp/cambios.txt
+        find /var/www/html/contactoips/contactenos-ips/subidas/  -type f   -exec mv  {}  /mnt/Datos2/www/html/contactoips/contactenos-ips/subidas/  \;
+        else
+                echo " Ningun cambio en los archivos "
+fi
+© 2019 GitHub, Inc.
