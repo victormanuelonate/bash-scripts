@@ -1,3 +1,5 @@
+#Wrote by Carlos Hernandez @CC
+
 Get-AzureRmVMSize $locationName | Out-GridView
 
 
