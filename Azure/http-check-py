@@ -1,0 +1,27 @@
+"""
+Azure Automation documentation : https://aka.ms/azure-automation-python-documentation
+Azure Python SDK documentation : https://aka.ms/azure-python-sdk
+"""
+import requests
+import sys
+import json
+import getopt
+import pprint
+response = requests.get('http://azws-ext.ips.gob.cl/recuperaFtp_li.php')
+status = response.status_code
+if  status == 200 :
+    print("###################################")
+    print "####### La pagina funciona ########"
+    contenido = response.json()
+    print("##### Valores de seguimiento #####")
+    print "#### Fecha ",contenido['fProceso'],"####" 
+	#print contenido['fProceso']
+    print "#### Registros procesados: ",contenido['arProcesados'], "#####"
+    print "#### Registros existentes: ",contenido['rExistentes'],  "#####"
+    print "#### Numero de archivos: ", contenido['nArchivos'],     "#####"
+    print "###################################"
+else :
+	print "La pagina esta caida"
+	print "Codigo del error: "
+	print status
+	
